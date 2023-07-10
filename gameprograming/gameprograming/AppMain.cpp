@@ -56,7 +56,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE Hprevinstance, _
 	//エラーが発生したら、終了する	
 	if (DxLib_Init() == D_ERROR)
 	{
-		return D_ERROR
+		return D_ERROR;
 	}
 
 	//各機能の初期化処理
@@ -77,7 +77,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE Hprevinstance, _
 	SetFontSize(FONT_SIZE);
 
 	//ゲームループ
-	while (ProcessMessage() != D_ERROR && Input_Eccape() == FALSE)
+	while (ProcessMessage() != D_ERROR && Input_Escape() == FALSE)
 	{
 
 		//入力制限機能更新処理
@@ -103,11 +103,4 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE Hprevinstance, _
 	DxLib_End();
 
 	return 0;
-}
-
-
-
-
-
-
 }
