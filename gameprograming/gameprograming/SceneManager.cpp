@@ -96,3 +96,12 @@ void SceneManager_Draw(void)
 		break;
 	}
 }
+
+
+
+
+void Change_Scene(GAME_MODE mode)
+{
+	Next_Mode = mode;
+}
+
