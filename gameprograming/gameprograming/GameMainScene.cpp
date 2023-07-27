@@ -21,8 +21,9 @@ int GameScore;
 int GameLevel;
 int GameMission;
 int GameTime;
-int GameCount;							//初期化されないようにするためのカウント
-int ReStartImage[NUMBER_IMAGE_MAX];
+int GameCount;				//初期化されないようにするためのカウント
+int ReStartFlag;
+int NumberImage[NUMBER_IMAGE_MAX];
 
 
 /********
@@ -50,7 +51,7 @@ int GameMainScene_Initialize(void)
 	ret = StageInitialize();
 
 	//エラーチェック
-	for (i = 0; i < NUMBER_IMAGE_MAX, i++)
+	for (i = 0; i < NUMBER_IMAGE_MAX; i++)
 	{
 		if(NumberImage[i]==D_ERROR)
 		{
@@ -108,6 +109,11 @@ void GameMainScene_Update(void)
 	{
 		Change_Scene(E_GAME_OVER);
 	}
+	if (Get_StageClearFlag())
+	{
+		Change_Scene(E_GAME_CLEAR);
+	}
+
 }
 
 /*********

@@ -64,7 +64,7 @@ void SceneManager_Update(void)
 	case E_GAMEMAIN:
 		GameMainScene_Update();
 		break;
-	case E_GAMECLEAR:
+	case E_GAME_CLEAR:
 		GameClearScene_Update();
 		break;
 	case E_GAME_OVER:
@@ -86,7 +86,7 @@ void SceneManager_Draw(void)
 	case E_GAMEMAIN:
 		GameMainScene_Draw();
 		break;
-	case E_GAMECLEAR:
+	case E_GAME_CLEAR:
 		GameClearScene_Draw();
 		break;
 	case E_GAME_OVER:

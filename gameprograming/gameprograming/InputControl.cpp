@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "inptControl.h"
+#include "inputControl.h"
 
 
 int old_button;
@@ -42,9 +42,6 @@ int Input_Escape(void)
 	return ret;
 }
 
-
-
-
 int GetOldKey(int key)
 {
 	int ret = FALSE;
@@ -58,7 +55,18 @@ int GetOldKey(int key)
 
 
 
-int GetNowKey(int key)
+
+int GetNowkey(int key)
+{
+	int ret = FALSE;
+	if ((key & now_button) != FALSE)
+	{
+		ret = TRUE;
+	}
+	return ret;
+}
+
+int GetKeyFlg(int key)
 {
 	int ret = FALSE;
 	int keyflg = now_button & old_button;
