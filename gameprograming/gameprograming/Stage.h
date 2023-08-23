@@ -8,7 +8,7 @@
 
 int StageInitialize(void);
 void CreateBlock(void);
-void SelectBolck(void);
+void SelectBlock(void);
 void StageDraw(void);
 void FadeOutBlock(void);
 void MoveBlock(void);

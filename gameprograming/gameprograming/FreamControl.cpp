@@ -3,15 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
 int FreamTime;
 int NowTime;
 int Wait;

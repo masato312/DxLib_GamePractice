@@ -87,7 +87,7 @@ void GameMainScene_Update(void)
 	switch (Get_StageState())
 	{
 	case 0:
-		SelectBolck();
+		SelectBlock();
 		break;
 	case 2:
 		MoveBlock();
@@ -146,7 +146,7 @@ void GameMainScene_Draw(void)
 	//ƒXƒRƒA‚Ì•`‰æ
 	PosX = 620;
 	do {
-		DrawRotaGraph(PosX, 160, 0.3f, 0, NumberImage[tmp_level % 10], TRUE);
+		DrawRotaGraph(PosX, 160, 0.3f, 0, NumberImage[tmp_score % 10], TRUE);
 		tmp_score /= 10;
 		PosX -= 20;
 	} while (tmp_score > 0);

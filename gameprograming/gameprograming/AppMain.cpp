@@ -7,8 +7,8 @@
 
 #include "DxLib.h"
 #include "FreamControl.h"
-#include"inputControl.h"
-#include"SceneManager.h"
+#include "InputControl.h"
+#include "SceneManager.h"
 
 
 /******************************

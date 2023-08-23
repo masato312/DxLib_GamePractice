@@ -47,7 +47,7 @@
     <ClInclude Include="FreamControl.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inputControl.h">
+    <ClInclude Include="InputControl.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">

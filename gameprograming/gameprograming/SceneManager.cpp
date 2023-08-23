@@ -23,17 +23,26 @@ GAME_MODE Next_Mode;
 int SceneManager_Initialize(GAME_MODE mode)
 {
 	int Read_Error;
-
+	//シーン読み込み
+	//タイトル画面
 	Read_Error = TitleScene_Initialize();
 	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}
+	//ゲームメイン画面
+	Read_Error = GameMainScene_Initialize();
+	if (Read_Error == D_ERROR)
+	{
+		return D_ERROR;
+	}
+	//ゲームクリア画面
 	Read_Error = GameClearScene_Initialize();
 	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}
+	//ゲームおーば画面
 	Read_Error = GameOverScene_Initialize();
 	if (Read_Error == D_ERROR)
 	{
@@ -55,7 +64,7 @@ void SceneManager_Update(void)
 	}
 
 
-
+	//各画面の更新
 	switch (Game_Mode)
 	{
 	case E_TITLE:

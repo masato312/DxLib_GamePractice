@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "inputControl.h"
+#include "InputControl.h"
 
 
 int old_button;
@@ -25,22 +25,25 @@ void Input_Initialize(void)
 
 
 void Input_Update(void)
-{
+{	//マウス入力情報
 	old_button = now_button;
 	now_button = GetMouseInput();
-
+	//マウスカーソルの座標
 	GetMousePoint(&mouse_position_x, &mouse_position_y);
 }
 
 int Input_Escape(void)
 {
 	int ret = FALSE;
+	//ESCキーが押されたらループから抜ける
 	if (CheckHitKey(KEY_INPUT_ESCAPE))
 	{
 		ret = TRUE;
 	}
 	return ret;
 }
+/**
+**/
 
 int GetOldKey(int key)
 {
@@ -52,11 +55,9 @@ int GetOldKey(int key)
 	return ret;
 
 }
-
-
-
-
-int GetNowkey(int key)
+/**
+**/
+int GetNowKey(int key)
 {
 	int ret = FALSE;
 	if ((key & now_button) != FALSE)
@@ -65,24 +66,28 @@ int GetNowkey(int key)
 	}
 	return ret;
 }
+/**
+**/
 
 int GetKeyFlg(int key)
 {
 	int ret = FALSE;
-	int keyflg = now_button & old_button;
+	int keyflg = now_button & ~old_button;
 	if ((key & keyflg) != FALSE)
 	{
 		ret = TRUE;
 	}
 	return ret;
 }
-
+/*
+*/
 
 int GetMousePositionX(void)
 {
 	return mouse_position_x;
 }
-
+/**
+**/
 
 int GetMousePositionY(void)
 {

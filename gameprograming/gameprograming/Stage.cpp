@@ -1,6 +1,6 @@
 #include "Stage.h"
 #include "DxLib.h"
-#include "inputControl.h"
+#include "InputControl.h"
 /*****
 マクロ定義
 *******/
@@ -78,7 +78,7 @@ int StageInitialize(void)
 	//音源読み込み
 	ClickSE = LoadSoundMem("sounds/click_se.mp3");
 	FadeOutSE = LoadSoundMem("sounds/fadeout_se.mp3");
-	MoveBlockSE = LoadSoundMem("sounds/fadeout_se.mp3");
+	MoveBlockSE = LoadSoundMem("sounds/moveblock_se.mp3");
 	//ブロック生成
 	CreateBlock();
 
@@ -131,6 +131,7 @@ void StageDraw(void) {
 		DrawRotaGraph(540, 245 + i * 30, 0.5f, 0, BlockImage[i + 1], TRUE, 0);
 		DrawFormatString(580, 235 + i * 30, 0xffffff, "%3d", Item[i]);
 	}
+	//ブロックを描画
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
@@ -143,20 +144,25 @@ void StageDraw(void) {
 		}
 	}
 	//選択ブロックを描画
-	DrawGraph(Select[SELECT_CURSOR].x * BLOCKSIZE, Select[SELECT_CURSOR].y * BLOCKSIZE, BlockImage[9], TRUE);
+	DrawGraph(Select[SELECT_CURSOR].x * BLOCKSIZE, Select[SELECT_CURSOR].y
+		* BLOCKSIZE, BlockImage[9], TRUE);
 	if (ClickStatus != E_NONE)
 	{
-		DrawGraph(Select[NEXT_CURSOR].x * BLOCKSIZE, Select[NEXT_CURSOR].y * BLOCKSIZE, BlockImage[9], TRUE);
+		DrawGraph(Select[NEXT_CURSOR].x * BLOCKSIZE, Select[NEXT_CURSOR].y * 
+			BLOCKSIZE, BlockImage[9], TRUE);
 	}
 	//ミッション
 	SetFontSize(20);
-	DrawFormatString(590, 211, GetColor(255, 255, 255), "%3d", Stage_Mission);
+	DrawFormatString
+	(590, 211, GetColor(255, 255, 255), "%3d", Stage_Mission);
 
 	//アイテム
 	for (int i = 0; i < ITEM_MAX; i++)
 	{
-		DrawRotaGraph(540, 245 + i * 30, 0.5f, 0, BlockImage[i + 1], TRUE, 0);
-		DrawFormatString(580, 235 + i * 30, GetColor(255, 255, 255), "%3d", Item[i]);
+		DrawRotaGraph
+		(540, 245 + i * 30, 0.5f, 0, BlockImage[i + 1], TRUE, 0);
+		DrawFormatString
+		(580, 235 + i * 30, GetColor(255, 255, 255), "%3d", Item[i]);
 	}
 }
 
@@ -188,6 +194,16 @@ void CreateBlock(void)
 				}
 			}
 		}
+		/*for (i = 1; i<HEIGHT - 1; i++)
+		{
+			for (j = 1; j < WIDTH - 1; j++)
+			{
+				if (Block[i][j].image == NULL)
+				{
+					Block[i][j].image = GetRand(7) + 1;
+				}
+			}
+		}*/
 		//ブロック連鎖
 		for (i = 1; i < HEIGHT - 1; i++)
 		{
@@ -203,12 +219,6 @@ void CreateBlock(void)
 		Item[i] = 0;
 	}
 }
-
-void SelectBolck(void)
-{
-}
-
-
 void SelectBlock(void)
 {
 	int TmpBlock;
@@ -245,18 +255,18 @@ void SelectBlock(void)
 			Select[NEXT_CURSOR].y = Select[SELECT_CURSOR].y;
 			ClickStatus = E_ONCE;
 		}
-		else if (ClickStatus == E_ONCE &&
-			((abs(Select[NEXT_CURSOR].x - Select[SELECT_CURSOR].x)
-				== 1 &&
-				(abs(Select[NEXT_CURSOR].y - Select[SELECT_CURSOR].y)
-					== 0)) ||
-				(abs(Select[NEXT_CURSOR].x - Select[SELECT_CURSOR].x)
-					== 0 &&
-					(abs(Select[NEXT_CURSOR].y - Select[SELECT_CURSOR].y) ==
-						1))))
+		else if(ClickStatus==E_ONCE&&
+			((abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)
+				==1&&
+				(abs(Select[NEXT_CURSOR].y-Select[SELECT_CURSOR].y)
+					==0))||
+				(abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)
+					==0&&
+					abs(Select[NEXT_CURSOR].y-Select[SELECT_CURSOR].y)==1)))
+		
 		{
 			Select[TMP_CURSOR].x = Select[SELECT_CURSOR].x;
-				Select[TMP_CURSOR].y = Select[SELECT_CURSOR].y;
+			Select[TMP_CURSOR].y = Select[SELECT_CURSOR].y;
 			ClickStatus = E_SECOND;
 		}
 	}
@@ -264,7 +274,8 @@ void SelectBlock(void)
 	if (ClickStatus == E_SECOND)
 	{
 		TmpBlock = Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image;
-		Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1];
+		Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image =
+		Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image;
 		Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image = TmpBlock;
 
 
@@ -275,8 +286,10 @@ void SelectBlock(void)
 		//連鎖3未満
 		if (Result == 0)
 		{
-			int TmpBlock = Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image;
-			Block[Select[NEXT_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image;
+			int TmpBlock = Block[Select[NEXT_CURSOR].y +
+				1][Select[NEXT_CURSOR].x + 1].image;
+			Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image =
+				Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image;
 			Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image = TmpBlock;
 		}
 		else
@@ -333,7 +346,7 @@ void MoveBlock(void)
 	//↓移動処理
 	for (i = 1; i < HEIGHT - 1; i++)
 	{
-		for (j = 1; j < HEIGHT - 1; j++)
+		for (j = 1; j < WIDTH - 1; j++)
 		{
 			if (Block[i][j].image == 0)
 			{
@@ -348,15 +361,12 @@ void MoveBlock(void)
 	//空のブロック生成処理
 	for (i = 1; i < HEIGHT - 1; i++)
 	{
-		for (j = 1; j < HEIGHT - 1; j++)
+		for (j = 1; j < WIDTH - 1; j++)
 		{
-			if (Block[i][j].image == 0)
-			{
 				if (Block[i][j].image == 0)
 				{
 					Block[i][j].image = GetRand(7) + 1;
 				}
-			}
 		}
 		//連鎖チェック
 		Stage_State = 3;
@@ -472,9 +482,7 @@ int combo_check(int y, int x)
 		ret = TRUE;
 	}
 	return ret;
-}
-void combo_check_j(int y, int x, int* cnt, int* col)
-{
+
 }
 /*
 **/
@@ -489,9 +497,9 @@ void combo_check_h(int y, int x, int* cnt, int* col)
 	*col = Block[y][x].image;
 	Color = Block[y][x].image;
 	Block[y][x].image = 0;
-	(*cnt)++;
+	(*cnt)++;                                          
 
-	if (Block[y - 1][x].image == Color)
+	if (Block[y + 1][x].image == Color)
 	{
 		combo_check_h(y + 1, x, cnt, col);
 	}
@@ -515,13 +523,13 @@ void combo_check_w(int y, int x, int* cnt, int* col)
 	Block[y][x].image = 0;
 	(*cnt)++;
 
-	if (Block[y - 1][x].image == Color)
+	if (Block[y][x + 1].image == Color)
 	{
-		combo_check_w(y + 1, x, cnt, col);
+		combo_check_w(y, x + 1, cnt, col);
 	}
-	if (Block[y - 1][x].image == Color)
+	if (Block[y][x - 1].image == Color)
 	{
-		combo_check_w(y - 1, x, cnt, col);
+		combo_check_w(y, x - 1, cnt, col);
 	}
 }
 /**
