@@ -153,8 +153,7 @@ void StageDraw(void) {
 	}
 	//ミッション
 	SetFontSize(20);
-	DrawFormatString
-	(590, 211, GetColor(255, 255, 255), "%3d", Stage_Mission);
+	DrawFormatString(590, 211, GetColor(255, 255, 255), "%3d", Stage_Mission);
 
 	//アイテム
 	for (int i = 0; i < ITEM_MAX; i++)
@@ -203,9 +202,9 @@ void CreateBlock(void)
 					Block[i][j].image = GetRand(7) + 1;
 				}
 			}
-		}*/
+		}
 		//ブロック連鎖
-		for (i = 1; i < HEIGHT - 1; i++)
+		*/for (i = 1; i < HEIGHT - 1; i++)
 		{
 			for (j = 1; j < WIDTH - 1; j++)
 			{
@@ -256,12 +255,9 @@ void SelectBlock(void)
 			ClickStatus = E_ONCE;
 		}
 		else if(ClickStatus==E_ONCE&&
-			((abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)
-				==1&&
-				(abs(Select[NEXT_CURSOR].y-Select[SELECT_CURSOR].y)
-					==0))||
-				(abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)
-					==0&&
+			((abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)==1&&
+				(abs(Select[NEXT_CURSOR].y-Select[SELECT_CURSOR].y)==0))||
+				(abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)==0&&
 					abs(Select[NEXT_CURSOR].y-Select[SELECT_CURSOR].y)==1)))
 		
 		{
@@ -321,7 +317,7 @@ void FadeOutBlock(void)
 			if (Block[i][j].image == 0)
 			{
 				DrawGraph(Block[i][j].x, Block[i][j].y,
-					BlockImage[Block[i][j].backup], TRUE);
+				BlockImage[Block[i][j].backup], TRUE);
 			}
 		}
 	}
@@ -368,9 +364,9 @@ void MoveBlock(void)
 					Block[i][j].image = GetRand(7) + 1;
 				}
 		}
-		//連鎖チェック
-		Stage_State = 3;
 	}
+	//連鎖チェック
+	Stage_State = 3;
 }
 
 /*****

@@ -30,7 +30,7 @@ int SceneManager_Initialize(GAME_MODE mode)
 	{
 		return D_ERROR;
 	}
-	//ゲームメイン画面
+	//ゲームメイン画面 
 	Read_Error = GameMainScene_Initialize();
 	if (Read_Error == D_ERROR)
 	{
@@ -61,7 +61,9 @@ void SceneManager_Update(void)
 	{
 		SceneManager_Initialize(Next_Mode);
 
+
 	}
+
 
 
 	//各画面の更新
