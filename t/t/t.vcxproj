@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8f468e77-147e-49b7-800e-adfb222c6b30}</ProjectGuid>
-    <RootNamespace>gameprograming</RootNamespace>
+    <ProjectGuid>{c967f75a-0192-446c-aa30-be31f54828a6}</ProjectGuid>
+    <RootNamespace>t</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>gameprograming</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -131,24 +130,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="FreamControl.cpp" />
-    <ClCompile Include="GameClearScene.cpp" />
-    <ClCompile Include="GameMainScene.cpp" />
-    <ClCompile Include="GameOverScene.cpp" />
-    <ClCompile Include="InputControl.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="FreamControl.h" />
-    <ClInclude Include="GameClearScene.h" />
-    <ClInclude Include="GameMainScene.h" />
-    <ClInclude Include="GameOverScene.h" />
-    <ClInclude Include="InputControl.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Stage.h" />
-    <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
