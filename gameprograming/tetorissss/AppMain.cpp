@@ -34,13 +34,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE Hprevinstance, _
 	SceneManager_Initialize(E_TITLE);
 
 	//描画先画面　裏
-	SetDrawScreen(DX_SCREEM_BACK);
+	SetDrawScreen(DX_SCREEN_BACK);
 
 	//文字サイズ設定
 	SetFontSize(FONT_SIZE);
 
 	//ゲームループ
-	while (PeocessMessage() == 0 && GetExitButton() != TRUE && ErrorCheck() ==
+	while (ProcessMessage() == 0 && GetExitButton() != TRUE && ErrorCheck() ==
 		D_NORMALITY)
 	{
 		//フレーム制御処理

@@ -3,6 +3,8 @@
 #include"GameMainScene.h"
 #include"GameClearScene.h"
 #include"GameOverScene.h"
+#include "SceneManager.h"
+#include "SceneManager.h"
 
 
 
@@ -52,6 +54,10 @@ int SceneManager_Initialize(GAME_MODE mode)
 	Game_Mode = mode;
 	Next_Mode = Game_Mode;
 	return Read_Error;
+}
+
+void SceneManager_Updata(void)
+{
 }
 
 
@@ -114,5 +120,10 @@ void SceneManager_Draw(void)
 void Change_Scene(GAME_MODE mode)
 {
 	Next_Mode = mode;
+}
+
+int ErrorCheck(void)
+{
+	return 0;
 }
 
