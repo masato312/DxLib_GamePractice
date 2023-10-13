@@ -221,5 +221,229 @@ void Block_Draw(void)
 
 int Get_GenerateFlg(void)
 {
+	return Generate_Flg;
+}
+int Get_Line(void)
+{
+	return DeleteLine;
+}
 
+void create_field(void)
+{
+	int i, j;
+
+	for (i = 0; i < FIELD_HEIGHT; i++)
+	{
+		for (j = 0; j < FIELD_WIDTH; j++)
+		{
+			if (j == 0 || j == FIELD_WIDTH - 1 || i == FIELD_HEIGHT - 1)
+			{
+				Field[i][j] = E_BLOCK_WALL;
+			}
+			else
+			{
+				Field[i][j] = E_BLOCK_EMPTY;
+			}
+		}
+	}
+}
+
+void create_block(void)
+{
+	int i, j;
+	int block_type;
+
+	block_type = GetRand(BLOCK_TYPE_MAX - 1);
+
+	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+	{
+		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+		{
+			DropBlock[i][j] = Next[i][j];
+			Next[i][j] = (BLOCK_STATE)C_BLOCK_TABLE[block_type][i][j];
+		}
+	}
+	DropBlock_X = DROP_BLOCK_INIT_X;
+	DropBlock_Y = DROP_BLOCK_INIT_Y;
+
+	if (check_overlap(DropBlock_X, DropBlock_Y) == FALSE)
+	{
+		Generate_Flg = FALSE;
+	}
+}
+
+void move_block(void)
+{
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_LEFT))
+	{
+		if (check_overlap(DropBlock_X - 1, DropBlock_Y) == TRUE)
+		{
+			DropBlock_X--;
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_RIGHT))
+	{
+		if (check_overlap(DropBlock_X + 1, DropBlock_Y) == TRUE)
+		{
+			DropBlock_X++;
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP))
+	{
+		while (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
+		{
+			DropBlock_Y++;
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
+	{
+		if (check_overlap(DropBlock_X, DropBlock_Y + 1) == TRUE)
+		{
+			DropBlock_Y++;
+		}
+	}
+}
+
+void change_block(void)
+{
+	BLOCK_STATE temp[BLOCK_TROUT_SIZE][BLOCK_TROUT_SIZE] = { E_BLOCK_EMPTY };
+	int i, j;
+
+	if (Stock_Flg == TRUE)
+	{
+		for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+		{
+			for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+			{
+				temp[i][j] = DropBlock[i][j];
+				DropBlock[i][j] = Stock[i][j];
+				Stock[i][j] = temp[i][j];
+			}
+		}
+	}
+	else
+	{
+		Stock_Flg = TRUE;
+		for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+		{
+			for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+			{
+				Stock[i][j] = DropBlock[i][j];
+			}
+		}
+		create_block();
+	}
+}
+
+void turn_block(int clockwise)
+{
+	BLOCK_STATE temp[BLOCK_TROUT_SIZE][BLOCK_TROUT_SIZE] = { E_BLOCK_EMPTY };
+
+	int i, j;
+	do
+	{
+		if (clockwise == TURN_CROCKWICE)
+		{
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					temp[j][3 - i] = DropBlock[i][j];
+				}
+			}
+		}
+		else
+
+		{
+			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+			{
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+				{
+					temp[3 - j][i] = DropBlock[i][j];
+				}
+			}
+		}
+		for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+		{
+			for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+			{
+				DropBlock[i][j] = temp[i][j];
+			}
+		}
+		if (check_overlap(DropBlock_X, DropBlock_Y) && DropBlock_X >= E_BLOCK_WALL)
+		{
+			DropBlock_X--;
+		}
+		if (check_overlap(DropBlock_X, DropBlock_Y) && DropBlock_X <= E_BLOCK_EMPTY)
+		{
+			DropBlock_X++;
+		}
+	} while (check_overlap(DropBlock_X, DROP_BLOCK_INIT_Y) == FALSE);
+	PlaySoundMem(SoundEffect[2], DX_PLAYTYPE_BACK, TRUE);
+}
+
+int check_overlap(int x, int y)
+{
+	int i, j;
+
+	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+	{
+		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+		{
+			if (DropBlock[i][j] != E_BLOCK_EMPTY)
+			{
+				if (Field[i + y][j + x] != E_BLOCK_EMPTY)
+				{
+					return FALSE;
+				}
+			}
+		}
+	}
+	return TRUE;
+}
+void lock_block(int x, int y)
+{
+	int i, j;
+	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+	{
+		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+		{
+			if (DropBlock[i][j] != E_BLOCK_EMPTY)
+			{
+				if (DropBlock[i][j] != E_BLOCK_EMPTY)
+				{
+					Field[y + i][x + j] = DropBlock[i][j];
+				}
+			}
+		}
+		PlaySoundMem(SoundEffect[1], DX_PLAYTYPE_BACK, TRUE);
+	}
+}
+
+void check_line(void)
+{
+	int i, j, k;
+	for (i = 0; i < FIELD_HEIGHT - 1; i++)
+	{
+		for (j = 1; j < FIELD_WIDTH; j++)
+		{
+			if (Field[i][j] == E_BLOCK_EMPTY)
+			{
+				break;
+			}
+		}
+		if (j >= FIELD_WIDTH)
+		{
+			DeleteLine++;
+
+			for (k = i; k > 0; k--)
+			{
+				for (j = 1; j < FIELD_WIDTH; j++)
+				{
+					Field[k][j] = Field[k - 1][j];
+				}
+			}
+			PlaySoundMem(SoundEffect[0], DX_PLAYTYPE_BACK, TRUE);
+		}
+	}
 }
