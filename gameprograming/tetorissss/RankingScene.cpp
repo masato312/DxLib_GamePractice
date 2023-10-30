@@ -47,7 +47,7 @@ int RankingScene_Initialize(void)
 		name_num = 0;
 		break;
 	case RANKING_DISP_MODE:
-	defaule:
+	default:
 
 		break;
 	}
@@ -92,10 +92,11 @@ void RankingScene_Draw(void)
 	}
 }
 
-void Set_rankingMode(int mode)
+void Set_RankingMode(int mode)
 {
 	DispMode = mode;
 }
+
 
 void Set_RankingScore(int score)
 {
@@ -108,7 +109,7 @@ void file_read(void)
 	int i;
 
 	OutputDebugString("ファイルを読みこみます");
-	fopen_s(&fp, RANKING_FILE, "r")
+	fopen_s(&fp, RANKING_FILE, "r");
 
 		if (fp == NULL)
 		{
@@ -128,4 +129,127 @@ void file_read(void)
 	}
 }
 
-page 4 hanbun
+void file_write(void)
+{
+	FILE* fp = NULL;
+	int i;
+
+	OutputDebugString("ファイルを書き込みます");
+	fopen_s(&fp, RANKING_FILE, "w");
+
+	if (fp == NULL)
+	{
+		OutputDebugString("ファイルを書き込めません");
+	}
+	else{
+		for (i = 0; i < RANKING_MAX; i++)
+		{
+			fprintf(fp, "%2d,%s,%10d\n", Ranking_Data[i].rank,
+				Ranking_Data[i].name, Ranking_Data[i].score);
+		}
+		fclose(fp);
+	}
+}
+void ranking_sort(void)
+{
+	int i, j;
+	T_RANKING tmp;
+
+	Ranking_Data[RANKING_MAX - 1] = New_Score;
+
+	for (i = 0; i < RANKING_MAX; i++) {
+		for (j = i + 1; j < RANKING_MAX; j++) {
+			if (Ranking_Data[i].score < Ranking_Data[j].score) {
+				tmp = Ranking_Data[i];
+				Ranking_Data[i] = Ranking_Data[j];
+				Ranking_Data[j] = tmp;
+			}
+		}
+	}
+	for (i = 0; i < RANKING_MAX; i++) {
+		Ranking_Data[i].rank = i + 1;
+	}
+	file_write();
+}
+
+void ranking_input_name(void) {
+	int c;
+
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_LEFT) == TRUE) {
+		if (Cursor.x > 0) {
+			Cursor.x--;
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_RIGHT) == TRUE) {
+		if (Cursor.x < 12) {
+			Cursor.x++;
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP) == TRUE) {
+		if (Cursor.y > 0) {
+			Cursor.y--;
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_DPAD_DOWN) == TRUE) {
+		if (Cursor.y < 4) {
+			Cursor.y++;
+		}
+	}
+	if (GetButtonDown(XINPUT_BUTTON_B) == TRUE) 
+	{
+		if (Cursor.y < 2) 
+		{
+			c = 'a' + Cursor.x + (Cursor.y * 13);
+			New_Score.name[name_num++] = c;
+		}
+		else if (Cursor.y < 4)
+		{
+			c = 'A' + Cursor.x + ((Cursor.y - 2) * 13);
+			New_Score.name[name_num++] = c;
+		}
+		else
+		{
+			if (Cursor.x < 10)
+			{
+				c = '0' + Cursor.x;
+				New_Score.name[name_num++] = c;
+			}
+			else if (Cursor.x == 10)
+			{
+				name_num--;
+				New_Score.name[name_num] = '\n';
+			}
+			else
+			{
+				DispMode = RANKING_DISP_MODE;
+				ranking_sort();
+			}
+		}
+	}
+}
+
+void ranking_input_name_draw(void)
+{
+	int i;
+
+	SetFontSize(40);
+	DrawFormatString(300, 150, GetColor(255, 255, 255), "名前を入力してください");
+	for (i = 0; i < 26; i++)
+	{
+		DrawFormatString((i % 13 * 50) + 300, (i / 13 * 50) + 330, GetColor(255, 255,
+			255), "%-3c", 'a' + 1);
+		DrawFormatString((i % 13 * 50) + 300, (i / 13 * 50) + 430, GetColor(255, 255,
+			255), "%-3c", 'A' + i);
+	}
+	for (i = 0; i < 10; i++)
+	{
+		DrawFormatString((i % 13 * 50) + 300, (i / 13 * 50) + 530, GetColor(255, 255,
+			255), "%-3c", '0' + i);
+	}
+	DrawFormatString(300, 220, GetColor(255, 255, 255), ">%s", New_Score.name);
+	SetFontSize(20);
+
+	DrawBox((Cursor.x * 50) + 290, (Cursor.y * 50) + 330,
+		(Cursor.x * 50) + 330, (Cursor.y * 50) + 370,
+		GetColor(255, 255, 255), FALSE);
+}

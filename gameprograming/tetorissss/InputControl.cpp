@@ -24,6 +24,7 @@ void InputControl_Initialize(void)
 	}
 }
 
+
 void InputControl_Update(void)
 {
 	int i;
@@ -91,7 +92,7 @@ int GetButtonDown(int button)
 	return ret;
 }
 
-int GetButtonDown(int button)
+int GetButtonUp(int button)
 {
 	int ret = FALSE;
 

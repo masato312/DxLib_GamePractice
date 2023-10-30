@@ -2,7 +2,7 @@
 
 
 
-#define FREAM_RATEÅ@60U
+#define FREAM_RATE (60U)
 
 
 void FreamControl_Initialize(void);

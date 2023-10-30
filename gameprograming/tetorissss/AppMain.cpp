@@ -13,7 +13,7 @@
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE Hprevinstance, _In_
 	LPSTR lpCmdLINE, _In_ int nShowCmd)
 {	//タイトルを変更
-	SetMainWindowMode(TRUE);
+	SetMainWindowText("テトリス");
 
 	//ウィンドウモードで起動
 	ChangeWindowMode(TRUE);
@@ -32,6 +32,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE Hprevinstance, _
 
 	//シーン管理処理
 	SceneManager_Initialize(E_TITLE);
+
+	InputControl_Initialize();
 
 	//描画先画面　裏
 	SetDrawScreen(DX_SCREEN_BACK);
