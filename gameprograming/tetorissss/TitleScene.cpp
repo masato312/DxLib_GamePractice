@@ -22,6 +22,9 @@ int TitleScene_Initialize(void)
 	sounds[E_TITLE_SE_CURSOR] = LoadSoundMem("sounds/SE1.mp3");
 	sounds[E_TITLE_SE_SELECT] = LoadSoundMem("sounds/SE2.mp3");
 
+	ChangeVolumeSoundMem(120, sounds[E_TITLE_SE_CURSOR]);
+	ChangeVolumeSoundMem(80, sounds[E_TITLE_SE_SELECT]);
+
 	for (int i = 0; i < E_SOUND_MAX; i++)
 	{
 		if (sounds[i] == -1)
@@ -33,7 +36,7 @@ int TitleScene_Initialize(void)
 	return ret;
 }
 
-void TitleSceneUpdate(void)
+void TitleScene_Update(void)
 {
 	if (CheckSoundMem(sounds[E_TITLE_BGM]) != TRUE)
 	{

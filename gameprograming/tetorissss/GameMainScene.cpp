@@ -3,10 +3,10 @@
 #include "Block.h"
 #include "SceneManager.h"
 
-int BackGround_image;
-int BackGround_sound;
-int GameOver_sound;
-int Score;
+int BackGround_image;		//背景画像イメージ
+int BackGround_sound;		//BGM
+int GameOver_sound;			//ゲームオーバーSE
+int Score;					//スコア
 
 int GameMainScene_Initialize(void)
 {
@@ -44,7 +44,7 @@ void GameMainScene_Update(void)
 	}
 }
 
-void GameMainScene_Drow(void)
+void GameMainScene_Draw(void)
 {
 	DrawGraph(0, 0, BackGround_image, TRUE);
 
