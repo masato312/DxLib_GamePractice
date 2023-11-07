@@ -33,6 +33,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE Hprevinstance, _
 	//シーン管理処理
 	SceneManager_Initialize(E_TITLE);
 
+	//入力制御機能初期化処理
 	InputControl_Initialize();
 
 	//描画先画面　裏

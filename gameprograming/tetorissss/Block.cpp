@@ -120,6 +120,7 @@ int Block_Initialize(void)
 
 	create_field();
 	create_block();
+	create_block();
 
 	WaitTime = 0;
 
@@ -212,11 +213,10 @@ void Block_Draw(void)
 	{
 		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 		{
-			DrawGraph((DropBlock_X + j) * BLOCK_SIZE, (DropBlock_Y + 1) * BLOCK_SIZE,
+			DrawGraph((DropBlock_X + j) * BLOCK_SIZE, (DropBlock_Y + i) * BLOCK_SIZE,
 				BlockImage[DropBlock[i][j]], TRUE);
 		}
 	}
-
 }
 
 int Get_GenerateFlg(void)
@@ -408,16 +408,13 @@ void lock_block(int x, int y)
 	{
 		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 		{
-			if (DropBlock[i][j] != E_BLOCK_EMPTY)
-			{
 				if (DropBlock[i][j] != E_BLOCK_EMPTY)
 				{
 					Field[y + i][x + j] = DropBlock[i][j];
 				}
-			}
 		}
-		PlaySoundMem(SoundEffect[1], DX_PLAYTYPE_BACK, TRUE);
 	}
+	PlaySoundMem(SoundEffect[1], DX_PLAYTYPE_BACK, TRUE);
 }
 
 void check_line(void)

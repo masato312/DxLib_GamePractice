@@ -44,6 +44,7 @@ void InputControl_Update(void)
 				break;
 			case E_CLICK:
 			case E_PRESS:
+				button_state[i] = E_PRESS;
 				break;
 			default:
 				button_state[i] = E_NONE;
