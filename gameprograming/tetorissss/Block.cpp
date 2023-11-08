@@ -378,7 +378,7 @@ void turn_block(int clockwise)
 		{
 			DropBlock_X++;
 		}
-	} while (check_overlap(DropBlock_X, DROP_BLOCK_INIT_Y) == FALSE);
+	} while (check_overlap(DropBlock_X, DropBlock_Y) == FALSE);
 	PlaySoundMem(SoundEffect[2], DX_PLAYTYPE_BACK, TRUE);
 }
 
